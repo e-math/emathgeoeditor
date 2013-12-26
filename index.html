@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>EmathGeoeditor - A jQuery-plugin</title>
+        <meta charset="UTF-8">
+        <link type="text/css" rel="stylesheet" media="all" href="style.css" />
+        <link type="text/css" rel="stylesheet" media="all" href="jsxgraph.css" />
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="jsxgraphcore.js"></script>
+        <script type="text/javascript" src="jquery.colpicker.js"></script>
+        <script type="text/javascript" src="gedit.js"></script>
+        <script type="text/javascript">
+            jQuery(function(){
+                var data = {editable: true};
+
+                jQuery('#box1').geditor(data);
+                jQuery('#iseditable').attr('checked', data.editable).change(function(){
+                    var editable = jQuery(this).is(':checked');
+                    var gedata = jQuery('#box1').geditor('getdata');
+                    if (gedata.editable) {
+                        data = gedata;
+                    }
+                    data.editable = editable;
+                    jQuery('#box1').geditor(data);
+                });
+                var data2 =
+{
+    "editable": true,
+    "width": "100%",
+    "height": "500px",
+    "browsingMode": "tabs",
+    "scenes": [
+        {
+            "type": "Scene",
+            "name": "Tangents",
+            "geoid": "GeoScene_{0}",
+            "objects": [
+                {
+                    "type": "Point",
+                    "name": "A",
+                    "geoid": "GeoPoint_{0}",
+                    "x": -4.05,
+                    "y": 0.51,
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 3,
+                    "color": "#ff0000",
+                    "snapToGrid": false
+                },
+                {
+                    "type": "Point",
+                    "name": "B",
+                    "geoid": "GeoPoint_{1}",
+                    "x": -6.42,
+                    "y": 1.12,
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 3,
+                    "color": "#ff0000",
+                    "snapToGrid": false
+                },
+                {
+                    "type": "Circle",
+                    "name": "k_{b}",
+                    "geoid": "GeoCircle_{0}",
+                    "p1": "GeoPoint_{0}",
+                    "p2": "GeoPoint_{1}",
+                    "dash": "1",
+                    "showName": false,
+                    "visible": true,
+                    "strokeColor": "#00aa00ff",
+                    "fillColor": "#ffff0055",
+                    "radius": 2.4
+                },
+                {
+                    "type": "Point",
+                    "name": "C",
+                    "geoid": "GeoPoint_{2}",
+                    "x": 3.23,
+                    "y": 0.45,
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 3,
+                    "color": "#ff0000",
+                    "snapToGrid": false
+                },
+                {
+                    "type": "Tangent",
+                    "name": "d",
+                    "geoid": "GeoTangent_{0}",
+                    "p1": "GeoCircle_{0}",
+                    "p2": "GeoPoint_{2}",
+                    "i1Name": "D",
+                    "i2Name": "E",
+                    "dash": "0",
+                    "showName": true,
+                    "visible": true,
+                    "color": "#0000ff",
+                    "strokeWidth": 2
+                }
+            ],
+            "boundingBox": [
+                -10,
+                5,
+                10,
+                -5
+            ],
+            "description": "You can draw two tangents for a circle through a point that is outside of the circle.\nTry to drag points <i>A</i>, <i>B</i> and <i>C</i> and the green circle.",
+            "showGrid": false,
+            "showAxis": false,
+            "isStatic": false,
+            "allowControls": true
+        },
+        {
+            "type": "Scene",
+            "name": "Perpendicular bisector",
+            "geoid": "GeoScene_{1}",
+            "objects": [
+                {
+                    "type": "Point",
+                    "name": "A",
+                    "geoid": "GeoPoint_{3}",
+                    "x": -2.84,
+                    "y": -2.74,
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 3,
+                    "color": "#ff0000",
+                    "snapToGrid": false
+                },
+                {
+                    "type": "Point",
+                    "name": "B",
+                    "geoid": "GeoPoint_{4}",
+                    "x": -1.93,
+                    "y": 3.85,
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 3,
+                    "color": "#ff0000",
+                    "snapToGrid": false
+                },
+                {
+                    "type": "Point",
+                    "name": "C",
+                    "geoid": "GeoPoint_{5}",
+                    "x": 4.69,
+                    "y": -0.68,
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 3,
+                    "color": "#ff0000",
+                    "snapToGrid": false
+                },
+                {
+                    "type": "Triangle",
+                    "name": "△ABC",
+                    "geoid": "GeoTriangle_{0}",
+                    "p1": "GeoPoint_{3}",
+                    "p2": "GeoPoint_{4}",
+                    "p3": "GeoPoint_{5}",
+                    "dash": "0",
+                    "showName": false,
+                    "visible": true,
+                    "strokeColor": "#0000ff",
+                    "fillColor": "#ffff002b"
+                },
+                {
+                    "type": "Midpoint",
+                    "name": "E",
+                    "geoid": "GeoMidpoint_{0}",
+                    "p1": "GeoPoint_{3}",
+                    "p2": "GeoPoint_{4}",
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 3,
+                    "color": "#ff0000"
+                },
+                {
+                    "type": "Midpoint",
+                    "name": "F",
+                    "geoid": "GeoMidpoint_{1}",
+                    "p1": "GeoPoint_{4}",
+                    "p2": "GeoPoint_{5}",
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 3,
+                    "color": "#ff0000"
+                },
+                {
+                    "type": "Midpoint",
+                    "name": "G",
+                    "geoid": "GeoMidpoint_{2}",
+                    "p1": "GeoPoint_{5}",
+                    "p2": "GeoPoint_{3}",
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 3,
+                    "color": "#ff0000"
+                },
+                {
+                    "type": "Normal",
+                    "name": "a",
+                    "geoid": "GeoNormal_{0}",
+                    "p1": "GeoTriangle_{0}-side1",
+                    "p2": "GeoMidpoint_{0}",
+                    "dash": "0",
+                    "showName": true,
+                    "visible": true,
+                    "color": "#00aa00ff",
+                    "strokeWidth": 2
+                },
+                {
+                    "type": "Normal",
+                    "name": "b",
+                    "geoid": "GeoNormal_{1}",
+                    "p1": "GeoTriangle_{0}-side3",
+                    "p2": "GeoMidpoint_{2}",
+                    "dash": "0",
+                    "showName": true,
+                    "visible": true,
+                    "color": "#00aa00ff",
+                    "strokeWidth": 2
+                },
+                {
+                    "type": "Normal",
+                    "name": "c",
+                    "geoid": "GeoNormal_{2}",
+                    "p1": "GeoTriangle_{0}-side2",
+                    "p2": "GeoMidpoint_{1}",
+                    "dash": "0",
+                    "showName": true,
+                    "visible": true,
+                    "color": "#00aa00ff",
+                    "strokeWidth": 2
+                },
+                {
+                    "type": "Intersection",
+                    "name": "M",
+                    "geoid": "GeoIntersection_{0}",
+                    "parent1": "GeoNormal_{1}",
+                    "parent2": "GeoNormal_{0}",
+                    "showName": true,
+                    "visible": true,
+                    "fixed": false,
+                    "size": 6,
+                    "color": "#ff0000",
+                    "showPoints": "both"
+                },
+                {
+                    "type": "Circle",
+                    "name": "c1",
+                    "geoid": "GeoCircle_{0}",
+                    "p1": "GeoIntersection_{0}_1",
+                    "p2": "GeoPoint_{3}",
+                    "showName": false
+                }
+            ],
+            "boundingBox": [
+                -10,
+                5,
+                10,
+                -5
+            ],
+            "description": "Perpendicular bisectors of the sides of a triangle intersect all in one point.\nThis point is equally far from all three cornerpoints.",
+            "showGrid": true,
+            "showAxis": false,
+            "isStatic": false,
+            "allowControls": true
+        }
+    ]
+};
+                jQuery('#box2').geditor(data2);
+                data2.editable = false;
+                jQuery('#box3').geditor(data2);
+                data2.browsingMode = 'tabless';
+                jQuery('#box4').geditor(data2);
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <div id="head-content">
+                <img id="logo" src="images/emath-logo.png" alt="E-Math" />
+                <h1>EmathGeoeditor</h1>
+                <h2>Create geometric constructions</h2>
+            </div>
+        </header>
+        <a href="https://github.com/e-math/emathgeoeditor"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+        <article class="content">
+            <p>EmathGeoeditor depends on <a href="http://jquery.com/">jQuery</a>, <a href="http://jsxgraph.uni-bayreuth.de/">JSXGraph</a>. EmathGeoeditor is otherwise a selfcontained js-file containing all css and images in one file to make installation easier. Additionally you can use provided <code>colpicker.js</code> to get fancier color picker instead of the default rgb(a)-hexacodes.</p>
+            <h2>Example 1</h2>
+            <p>Here is an example, how to use <code>gedit.js</code>.</p>
+            <div class="codewrapper">
+<div class="codeexample">
+&lt;div id="box1"&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+    jQuery('#box1').geditor({editable: true});
+&lt;/script&gt;
+</div>
+            </div>
+            <p>The geoeditor is started in edit mode. You can click the checkbox to toggle between edit mode and show mode.</p>
+            <p>
+                <input id="iseditable" type="checkbox" /><label for="iseditable">Editable</label>
+            </p>
+            <div id="box1"></div>
+            <h2>Example 2</h2>
+            <p>Here is another example.</p>
+            <div class="codewrapper">
+<div class="codeexample">
+&lt;div id="box2"&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+    var data2 = ... (see the variable data2 in the source code of this html page) ...;
+    data.editable = true;
+    jQuery('#box2').geditor(data2);
+&lt;/script&gt;
+</div>
+            </div>
+            <p>The geoeditor is started in edit mode with existing data.</p>
+            <div id="box2"></div>
+            
+            
+            
+            
+            <h2>Example 3</h2>
+            <p>Here is yet another example.</p>
+            <div class="codewrapper">
+<div class="codeexample">
+&lt;div id="box3"&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+    var data2 = ... (see the variable data2 in the source code of this html page) ...;
+    data.editable = false;
+    jQuery('#box3').geditor(data2);
+&lt;/script&gt;
+</div>
+            </div>
+            <p>The geoeditor is started in show mode with existing data.</p>
+            <div id="box3"></div>
+            
+            
+            
+            
+            <h2>Example 4</h2>
+            <p>Here is yet another example.</p>
+            <div class="codewrapper">
+<div class="codeexample">
+&lt;div id="box4"&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+    var data2 = ... (see the variable data2 in the source code of this html page) ...;
+    data.editable = false;
+    data.browsingMode = 'tabless';
+    jQuery('#box4').geditor(data2);
+&lt;/script&gt;
+</div>
+            </div>
+            <p>The geoeditor is started in show mode with existing data and with navigation dots instead of tabs.</p>
+            <div id="box4"></div>
+            
+            
+            
+            
+            <h2>Usage</h2>
+            <p>The size of the editor or drawing is determined by the containing element. By default the width will be 100% of the containing element and the height will be computed from the aspect ratio of the drawing.</p>
+            <h3>jQuery plugin</h3>
+            <p>The edit or show mode is initiated in any html-element with <code>.geditor()</code>-method of jQuery-object containing that html-element. The data of drawing(s) can be given as an object argument. The data of the existing drawing can be requested from it with <code>.geditor('getdata')</code>.</p>
+            <h3>In edit mode:</h3>
+            <ul>
+                <li><strong>Layout</strong>
+                    <ul>
+                        <li>Toolbar at the top (Some tools have "subtools".)</li>
+                        <li>Drawing area in the middle</li>
+                        <li>Tabs and handling of tabs below drawing area.</li>
+                        <li>Info area with help for current tool in the bottom.</li>
+                        <li>Objectlist at right hand side with eye icon for "show/hide" and trahscan for removing.</li>
+                        <li>Propertyarea at top right hand side showing editable properties of current object. Basic properties are shown by default and advanced properties come available by clicking three dots (...) in the bottom of propertyarea.</li>
+                    </ul>
+                </li>
+                <li><strong>Tabs</strong>
+                    <ul>
+                        <li>One editor can contain several drawings.</li>
+                        <li>Each drawing is in its own tab.</li>
+                        <li>Tabs can be used, for example, to illustrate steps of a construction.</li>
+                        <li>Tabs can be added, removed and copied.</li>
+                        <li>The first object in objectlist is the drawing in current tab itself.</li>
+                        <li>Properties of a drawing include: name (label of the tab), description (caption of the drawing), dimensions of the drawing, grid on/off, axis on/off, static (lock the drawing to non-interactive state in show mode) and allow controls (show navigation and zooming in show mode).</li>
+                    </ul>
+                </li>
+                <li><strong>Drawing objects</strong>
+                    <ul>
+                        <li>There are several different kind of geometrical objects that can be added. For example: point, line, circle, glider (point on some curve), triangle, rectangle, normal, parallel line, etc.</li>
+                        <li>Each object in current tab/drawing is listed in object list.</li>
+                        <li>Some objects depend on other objects (for example, line depends on two points) and will be updated, when those are moved.</li>
+                        <li>There are three kinds of points: Solid points are free points that can be moved freely, hollow points (white inside) are restricted points that can be moved with some restrictions (for example, glide on a line), diamonds and plusses are fully dependent points that can not be moved (fourth point of rectangle, intersections).</li>
+                        <li>If an object is removed and another, remaining, object depended on the removed one, the remaining one will not be drawn and it will be marked with red color in the list to indicate it is broken.</li>
+                        <li>Broken objects can either be removed or repaired by fixing their dependencies in their property settings.</li>
+                        <li>If <code>colpicker.js</code> is used, the colorbars in propertyarea are clickable and give a small palet for selecting a color.</li>
+                    </ul>
+                </li>
+                <li><strong>Localization</strong></li>
+                <ul>
+                    <li>The geoeditor has localization system to show texts in different languages.</li>
+                    <li>The editor finds the closest parent in DOM-tree that has <code>lang</code>-attribute set and uses that language, if it is available. English is the default language. (So, if for example the <code>body</code>-element has <code>lang="fi"</code>, the editor will use Finnish language.</li>
+                    <li>Available languages so far: English, Finnish, Swedish (partial)</li>
+                </ul>
+            </ul>
+            <h3>In show mode:</h3>
+            <ul>
+                <li><strong>Layout</strong>
+                    <ul>
+                        <li>Drawing area</li>
+                        <li>Tabs or navigation dots under the drawing area</li>
+                        <li>Caption of the drawing in the current tab under the tabs.</li>
+                    </ul>
+                </li>
+                <li><strong>Tabs</strong>
+                    <ul>
+                        <li>Separate drawings can be selected either with tabs or with dot navitation.</li>
+                        <li>The tabsystem is selected with <code>browsingMode</code>-property in the drawing data. (No user interface for selecting this yet.)</li>
+                        <li>If tabs are used, the label of the tab is the name of the drawing or a number, if the name is empty.</li>
+                        <li>Each drawing can have navigation (browsing the view left, right, up, down and zooming) enabled or disabled. This is selected in the edit mode or in the raw data with <code>allowControl</code>-property.</li>
+                    </ul>
+                </li>
+            </ul>
+            <pre id="databox"></pre>
+        </article>
+        <footer>
+            <div id="disclaimerbox">
+                <div id="leftlogo">
+                    <img src="images/CB_logo-200.png" alt="" />
+                </div>
+                <div id="rightlogo">
+                    <img src="images/EU_with_references-300.png" alt="" />
+                </div>
+                <div id="disclaimer">
+                    The contents of the website reflect the authors' views. The Managing Authority of the Central Baltic INTERREG IVA Programme cannot be held liable for the information published by the project partners. 
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
