@@ -16,6 +16,7 @@ as a geoeditor with: `$('#mydiv').geditor()`.
 Emathgeoeditor depends on external JavaScript libraries:
 * jQuery
 * JSXGraph
+
 Additionally `jquery.colpicker.js` can be used to show fancier colorpicker to select the colors (instead rgba-hexacode).
 
 Who?
@@ -24,6 +25,7 @@ The tool was developed in EU-funded [E-Math -project](http://emath.eu) by
 * Petri Salmela
 * Rolf Lindén
 * Petri Sallasmaa
+
 and the copyrights are owned by [Four Ferries oy](http://fourferries.fi).
 
 License?
