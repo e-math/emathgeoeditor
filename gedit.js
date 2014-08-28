@@ -639,8 +639,8 @@
             this.layout.propertyarea.html(str); //.scrollTop(0);
             var table = this.layout.propertyarea.find('.gedit-options-basic tbody');
             for (var i = 0; i < dialog.basic.length; i++) {
-                table.append('<tr class="geoWidgetRow geoWidget-'+dialog.basic[i].type+'"><td><span class="geoItemCaption">'+this.localize(dialog.basic[i].label)+': </span></td><td><span class="geoProperty"></span></td></tr>');
-                var place = table.find('.geoProperty:last');
+                table.append('<tr class="geoWidgetRow geoWidget-'+dialog.basic[i].type+'"><td><span class="geoItemCaptionLabel">'+this.localize(dialog.basic[i].label)+': </span></td><td><span class="geoproperty"></span></td></tr>');
+                var place = table.find('.geoproperty:last');
                 if (typeof(dialog.basic[i]) === 'object') {
                     var widgetConstr = this.widgets[dialog.basic[i].type];
                     var widget = new widgetConstr(place, dialog.basic[i]);
@@ -649,8 +649,8 @@
             }
             var table = this.layout.propertyarea.find('.gedit-options-advanced tbody');
             for (var i = 0; i < dialog.advanced.length; i++) {
-                table.append('<tr class="geoWidgetRow geoWidget-'+dialog.advanced[i].type+'"><td><span class="geoItemCaption">'+this.localize(dialog.advanced[i].label)+': </span></td><td><span class="geoProperty"></span></td></tr>');
-                var place = table.find('.geoProperty:last');
+                table.append('<tr class="geoWidgetRow geoWidget-'+dialog.advanced[i].type+'"><td><span class="geoItemCaptionLabel">'+this.localize(dialog.advanced[i].label)+': </span></td><td><span class="geoproperty"></span></td></tr>');
+                var place = table.find('.geoproperty:last');
                 if (typeof(dialog.advanced[i]) === 'object') {
                     var widgetConstr = this.widgets[dialog.advanced[i].type];
                     var widget = new widgetConstr(place, dialog.advanced[i]);
@@ -11141,7 +11141,7 @@
          * Get the html for the widget.
          */
         GeoWidgetBoxarea.prototype.init = function(){
-            var html = '<table><tbody><tr><td></td><td colspan="2"><span class="geoProperty"><input type="text" value="' + this.value[0] + '" size="2" data-geoattribute="'+this.key[0]+'" /></span></td><td></td></tr><tr><td colspan="2"><span class="geoProperty"><input type="text" value="' + this.value[1] + '" size="2" data-geoattribute="'+this.key[1]+'" /></span></td><td colspan="2"><span class="geoProperty"><input type="text" value="' + this.value[2] + '" size="2" data-geoattribute="'+this.key[2]+'" /></span></td></tr><tr><td></td><td colspan="2"><span class="geoProperty"><input type="text" value="' + this.value[3] + '" size="2" data-geoattribute="'+this.key[3]+'" /></span></td><td></td></tr></tbody></table>';
+            var html = '<table><tbody><tr><td></td><td colspan="2"><span class="geoproperty"><input type="text" value="' + this.value[0] + '" size="2" data-geoattribute="'+this.key[0]+'" /></span></td><td></td></tr><tr><td colspan="2"><span class="geoproperty"><input type="text" value="' + this.value[1] + '" size="2" data-geoattribute="'+this.key[1]+'" /></span></td><td colspan="2"><span class="geoproperty"><input type="text" value="' + this.value[2] + '" size="2" data-geoattribute="'+this.key[2]+'" /></span></td></tr><tr><td></td><td colspan="2"><span class="geoproperty"><input type="text" value="' + this.value[3] + '" size="2" data-geoattribute="'+this.key[3]+'" /></span></td><td></td></tr></tbody></table>';
             this.place.replaceWith(html);
         }
 
