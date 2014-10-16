@@ -8,6 +8,10 @@
 |Description|Creates and shows geometric scenes constructed from geometric primitives.|
 !!!!!Revisions
 <<<
+20141016.0959 ''Version 1.01''
+* Fix the Tiddlywiki-macro (add .last() )
+<<<
+<<<
 20131223.1722 ''Version 1.0''
 * Swedish translation
 * Moving translations in the file
@@ -11300,7 +11304,7 @@ if (typeof(config) !== 'undefined' && typeof(config.macros) !== 'undefined'){
             }
             editor.editable = editable;
             
-            jQuery(place).find('.geoeditor').attr('geoeditor',params[0]).geditor(editor);
+            jQuery(place).find('.geoeditor').last().attr('geoeditor',params[0]).geditor(editor);
             if (editable && params[1] !== 'author'){
                 jQuery(place).find('.geoeditor').bind('geoeditor_changed', function(e){
                     var geoeditors = DataTiddler.getData(tiddler, 'Geoeditors', {});
