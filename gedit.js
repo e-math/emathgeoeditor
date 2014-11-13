@@ -8,7 +8,11 @@
 |Description|Creates and shows geometric scenes constructed from geometric primitives.|
 !!!!!Revisions
 <<<
-20141016.0959 ''Version 1.01''
+20141113.1350 ''Version 1.0.2''
+* Fix the GeoRtriangle.prototype.getDist() - changing direction.
+<<<
+<<<
+20141016.0959 ''Version 1.0.1''
 * Fix the Tiddlywiki-macro (add .last() )
 <<<
 <<<
@@ -1169,7 +1173,7 @@
             'Allow controls': {
                 'en': 'Allow controls',
                 'fi': 'Salli hallinta',
-                'sv': 'Tillåt redigering'
+                'sv': 'Tillåt zoomning'
             },
             'Bounding box': {
                 'en': 'Bounding box',
@@ -1448,7 +1452,8 @@
             },
             'Show right angle': {
                 'en': 'Show mark for right angle',
-                'fi': 'Näytä suoran kulman merkki'
+                'fi': 'Näytä suoran kulman merkki',
+		        'sv': 'Markera 90-gradersvinklar'
             }
         });
         
@@ -1472,7 +1477,7 @@
             'Angle mode': {
                 'en': 'Angle mode',
                 'fi': 'Kulman tyyppi',
-                'sv': 'Typ av vinkel'
+                'sv': 'Val av vinkel'
             },
             'Angle': {
                 'en': 'Angle',
@@ -1555,7 +1560,7 @@
             'Line segment': {
                 'en': 'Line segment',
                 'fi': 'Jana',
-                'sv': 'Spetspunkt'
+                'sv': 'Sträcka'
             },
             'Starting line segment': {
                 'en': 'Starting line segment',
@@ -1575,11 +1580,13 @@
         Localizer.addTerms({
             'Intersection 1 name': {
                 'en': 'Name of 1st intersection',
-                'fi': '1. leikkauspisteen nimi'
+                'fi': '1. leikkauspisteen nimi',
+                'sv': 'Första tangeringspunktens namn'
             },
             'Intersection 2 name': {
                 'en': 'Name of 2nd intersection',
-                'fi': '2. leikkauspisteen nimi'
+                'fi': '2. leikkauspisteen nimi',
+                'sv': 'Andra tangeringspunktens namn'
             }
         });
                 
@@ -1713,7 +1720,7 @@
             'Circle-1': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>arc point</strong> of the circle.</p>',
                 'fi': '<p>Valitse tai lisää ympyrän <strong>kehäpiste</strong> klikkaamalla piirtoaluetta.</p>',
-                'sv': '<p>Välj eller lägg cirkelns <strong>periferipunkt</strong> genom att klicka på ritområdet.</p>'
+                'sv': '<p>Välj eller lägg till cirkelns <strong>periferipunkt</strong> genom att klicka på ritområdet.</p>'
             },
             'Circle-maintooltip': {
                 'en': 'Circle',
@@ -1723,7 +1730,7 @@
             'Circle-tooltip': {
                 'en': 'Circle with center and arc point',
                 'fi': 'Ympyrä keski- ja kehäpisteillä',
-                'sv': 'En cirkel med en medel- samt periferipunkt'
+                'sv': 'En cirkel med en medel- och periferipunkt'
             }
         });
 
@@ -1762,7 +1769,7 @@
             'Rcircle-tooltip': {
                 'en': 'Circle with center and radius from segment / two points',
                 'fi': 'Ympyrä keskipisteellä ja kahdesta pisteestä / janasta saadulla säteellä',
-                'sv': 'En cirkel med medelpunkt och radie från två punkter / en sträcka'
+                'sv': 'En cirkel med medelpunkt och radie definierad av två punkter / en sträcka'
             }
         });
 
@@ -1815,7 +1822,7 @@
             'Righttriangle-tooltip': {
                 'en': 'Right triangle - hypotenuse first',
                 'fi': 'Suorakulmainen kolmio - hypotenuusa ensin',
-                'sv': 'Rätvinklig triangel - hypotenusan i den första'
+                'sv': 'Rätvinklig triangel - hypotenusan först'
             }
         });
 
@@ -1837,23 +1844,28 @@
         Localizer.addTerms({
             'Midpoint-start': {
                 'en': '<p>Click on a <strong>segment or the first end point</strong> of segment to add a midpoint.</p>',
-                'fi': '<p>Lisää janalle keskipiste klikkaamalla <strong>janaa tai janan alkupään pistettä</strong>.</p>'
+                'fi': '<p>Lisää janalle keskipiste klikkaamalla <strong>janaa tai janan alkupään pistettä</strong>.</p>',
+                'sv': '<p>Klicka på <strong>sträckan eller första ändpunkten</strong> för att lägga till en mittpunkt.</p>'
             },
             'Midpoint-1': {
                 'en': '<p>Click on <strong>the second end point of</strong> of a segment to add a midpoint.</p>',
-                'fi': '<p>Klikkaa janan <strong>toista päätepistettä</strong> keskipisteen lisäämiseksi.</p>'
+                'fi': '<p>Klikkaa janan <strong>toista päätepistettä</strong> keskipisteen lisäämiseksi.</p>',
+                'sv': '<p>Klicka på <strong>den andra ändpunkten</strong> för att lägga till mittpunkten.</p>'
             },
             'Midpoint-error-0': {
                 'en': '<p>You didn\'t click a point or a segment.</p><p>Click on a <strong>segment or the first end point</strong> of a segment to add a midpoint.</p>',
-                'fi': '<p>Et osunut pisteeseen tai janaan.</p><p>Lisää janalle keskipiste klikkaamalla <strong>janaa tai janan alkupään pistettä</strong>.</p>'
+                'fi': '<p>Et osunut pisteeseen tai janaan.</p><p>Lisää janalle keskipiste klikkaamalla <strong>janaa tai janan alkupään pistettä</strong>.</p>',
+                'sv': '<p>Du klickade inte på en sträcka eller en punkt.</p><p>Klicka på <strong>en sträcka eller den första ändpunkten</strong> till en sträcka, för att lägga till en mittpunkt.</p>'
             },
             'Midpoint-error-1': {
                 'en': '<p>You didn\'t click a point.</p><p>Click on <strong>the second end point of</strong> of a segment to add a midpoint.</p>',
-                'fi': '<p>Et osunut pisteeseen.</p><p>Klikkaa janan <strong>toista päätepistettä</strong> keskipisteen lisäämiseksi.</p>'
+                'fi': '<p>Et osunut pisteeseen.</p><p>Klikkaa janan <strong>toista päätepistettä</strong> keskipisteen lisäämiseksi.</p>',
+                'sv': '<p>Du klickade inte på en punkt.</p><p>Klicka på sträckans <strong>andra ändpunkt</strong> för att lägga till en mittpunkt.</p>'
             },
             'Midpoint-tooltip': {
                 'en': 'Midpoint',
-                'fi': 'Keskipiste'
+                'fi': 'Keskipiste',
+                'sv': 'Mittpunkt'
             }
         });
         
@@ -1904,19 +1916,23 @@
         Localizer.addTerms({
             'Parallel-start': {
                 'en': '<p>Click on the drawing area to select the <strong>line or segment</strong> with which you want to draw a parallel line.</p>',
-                'fi': '<p>Valitse piirtoaluetta klikkaamalla <strong>suora tai jana</strong>, jonka kanssa yhdensuuntaisen suoran haluat piirtää.</p>'
+                'fi': '<p>Valitse piirtoaluetta klikkaamalla <strong>suora tai jana</strong>, jonka kanssa yhdensuuntaisen suoran haluat piirtää.</p>',
+                'sv': '<p>Klicka på en <strong>linje eller sträcka</strong> på ritområdet för att rita en parallell till linjen/sträckan.</p>'
             },
             'Parallel-1': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>point</strong> the parallel line will go through.</p>',
-                'fi': '<p>Valitse tai lisää piirtoaluetta klikkaamalla <strong>piste</strong>, jonka kautta yhdensuuntainen suora kulkee.</p>'
+                'fi': '<p>Valitse tai lisää piirtoaluetta klikkaamalla <strong>piste</strong>, jonka kautta yhdensuuntainen suora kulkee.</p>',
+                'sv': '<p>Klicka på ritområdet för att lägga till den <strong>punkt</strong> som den parallella linjen ska gå genom.</p>'
             },
             'Parallel-error-0': {
                 'en': '<p>You missed the line. Click on the drawing area to select the <strong>line or segment</strong> with which you want to draw a parallel line.</p>',
-                'fi': '<p>Et osunut käyrään. Valitse piirtoaluetta klikkaamalla <strong>suora tai jana</strong>, jonka kanssa yhdensuuntaisen suoran haluat piirtää.</p>'
+                'fi': '<p>Et osunut käyrään. Valitse piirtoaluetta klikkaamalla <strong>suora tai jana</strong>, jonka kanssa yhdensuuntaisen suoran haluat piirtää.</p>',
+                'sv': '<p>Du träffade inte linjen. Klicka på en <strong>linje eller sträcka</strong> på ritområdet för att rita en parallell till linjen/sträckan.</p>'
             },
             'Parallel-tooltip': {
                 'en': 'Parallel line',
-                'fi': 'Yhdensuuntainen suora'
+                'fi': 'Yhdensuuntainen suora',
+                'sv': 'Parallell linje'
             }
         });
         
@@ -1924,19 +1940,23 @@
         Localizer.addTerms({
             'Tangent-start': {
                 'en': '<p>Click on the drawing area to select the <strong>curve</strong> you want to draw a tangent(s) for.</p>',
-                'fi': '<p>Valitse piirtoaluetta klikkaamalla <strong>käyrä</strong>, jolle haluat piirtää tangentin.</p>'
+                'fi': '<p>Valitse piirtoaluetta klikkaamalla <strong>käyrä</strong>, jolle haluat piirtää tangentin.</p>',
+                'sv': '<p>Klicka på <strong>kurvan</strong> på ritområdet som du vill rita in tangent(er) till.</p>'
             },
             'Tangent-1': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>point</strong> the tangent will go through.</p>',
-                'fi': '<p>Valitse tai lisää piirtoaluetta klikkaamalla <strong>piste</strong>, jonka kautta tangentti kulkee.</p>'
+                'fi': '<p>Valitse tai lisää piirtoaluetta klikkaamalla <strong>piste</strong>, jonka kautta tangentti kulkee.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller lägga till den <strong>punkt</strong> tangenten/tangenterna skall gå genom.</p>'
             },
             'Tangent-error-0': {
                 'en': '<p>You missed the curve. Click on the drawing area to select the <strong>curve</strong> you want to draw a tangent(s) for.</p>',
-                'fi': '<p>Et osunut käyrään. Valitse piirtoaluetta klikkaamalla <strong>käyrä</strong>, jolle haluat piirtää tangentin.</p>'
+                'fi': '<p>Et osunut käyrään. Valitse piirtoaluetta klikkaamalla <strong>käyrä</strong>, jolle haluat piirtää tangentin.</p>',
+                'sv': '<p>Du träffade inte kurvan. Klicka på <strong>kurvan</strong> på ritområdet som du vill rita in tangent(er) till.</p>'
             },
             'Tangent-tooltip': {
-                'en': 'Normal',
-                'fi': 'Normaali'
+                'en': 'Tangent',
+                'fi': 'Tangentti',
+                'sv': 'Tangent'
             }
         });
 
@@ -1945,17 +1965,17 @@
             'Rectangle-start': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>first point</strong> of the rectangle.</p>',
                 'fi': '<p>Valitse tai lisää <strong>suorakaiteen ensimmäinen piste</strong> klikkaamalla piirtoaluetta.</p>',
-                'sv': '<p>Klicka på ritområdet för att välja eller lägga till den <strong>första punkten</strong> av rektangeln.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller lägga till rektangelns <strong>första hörnpunkt</strong>.</p>',
             },
             'Rectangle-1': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>second point</strong> of the rectangle.</p>',
                 'fi': '<p>Valitse tai lisää <strong>suorakaiteen toinen piste</strong> klikkaamalla piirtoaluetta.</p>',
-                'sv': '<p>Klicka på ritområdet för att välja eller lägga till den <strong>andra punkten</strong> av rektangeln.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller lägga till rektangelns <strong>andra hörnpunkt</strong>.</p>',
             },
             'Rectangle-2': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>third cornerpoint</strong> of the rectangle.</p>',
                 'fi': '<p>Valitse tai lisää suorakaiteen <strong>kolmas</strong> kulmapiste klikkaamalla piirtoaluetta.</p>',
-                'sv': '<p>Klicka på ritområdet för att välja eller lägga till den <strong>tredje hörnpunkten</strong> av rektangeln.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller lägga till rektangelns <strong>tredje hörnpunkt</strong>.</p>',
             },
             'Rectangle-maintooltip': {
                 'en': 'Rectangle',
@@ -1973,23 +1993,28 @@
         Localizer.addTerms({
             'Rtriangle-start': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>first point</strong> of the right triangle.</p>',
-                'fi': '<p>Valitse tai lisää <strong>suorakulmaisen kolmion ensimmäinen piste</strong> klikkaamalla piirtoaluetta.</p>'
+                'fi': '<p>Valitse tai lisää <strong>suorakulmaisen kolmion ensimmäinen piste</strong> klikkaamalla piirtoaluetta.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller rita in den <strong>första hörnpunkten</strong> i den rätvinkliga triangeln.</p>'
             },
             'Rtriangle-1': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>point in the right angle corner</strong> of the right triangle.</p>',
-                'fi': '<p>Valitse tai lisää suorakulmaisen kolmion <strong>suorakulmaisen kulman piste</strong> klikkaamalla piirtoaluetta.</p>'
+                'fi': '<p>Valitse tai lisää suorakulmaisen kolmion <strong>suorakulmaisen kulman piste</strong> klikkaamalla piirtoaluetta.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller rita in <strong>hörnpunkten för 90-gradersvinkeln</strong>.</p>'
             },
             'Rtriangle-2': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>third cornerpoint</strong> of the right triangle.</p>',
-                'fi': '<p>Valitse tai lisää suorakulmaisen kolmion <strong>kolmas kulmapiste</strong> klikkaamalla piirtoaluetta.</p>'
+                'fi': '<p>Valitse tai lisää suorakulmaisen kolmion <strong>kolmas kulmapiste</strong> klikkaamalla piirtoaluetta.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller rita in den <strong>tredje hörnpunkten</strong> på den rätvinkliga triangeln.</p>'
             },
             'Rtriangle-maintooltip': {
                 'en': 'Right triangle',
-                'fi': 'Suorakulmainen kolmio'
+                'fi': 'Suorakulmainen kolmio',
+                'sv': 'Rätvinklig triangel'
             },
             'Rtriangle-tooltip': {
                 'en': 'Right triangle - catheti first',
-                'fi': 'Suorakulmainen kolmio - kateetti ensin'
+                'fi': 'Suorakulmainen kolmio - kateetti ensin',
+                'sv': 'Rätvinklig triangel - katet först'
             }
         });
         
@@ -2026,23 +2051,28 @@
         Localizer.addTerms({
             'Bisector-start': {
                 'en': '<p>Click on the drawing area to select or to add the point on the <strong>right hand side</strong> of the angle.</p>',
-                'fi': '<p>Valitse tai lisää kulman <strong>oikean kyljen</strong> piste.</p>'
+                'fi': '<p>Valitse tai lisää kulman <strong>oikean kyljen</strong> piste.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller rita in en punkt på <strong>höger sida</strong> om vinkeln.</p>'
             },
             'Bisector-1': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>corner point</strong> of the angle.</p>',
-                'fi': '<p>Valitse tai lisää kulman <strong>kärkipiste</strong>.</p>'
+                'fi': '<p>Valitse tai lisää kulman <strong>kärkipiste</strong>.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller rita in vinkelns <strong>spetspunkt</strong>.</p>'
             },
             'Bisector-2': {
                 'en': '<p>Click on the drawing area to select or to add the point on the <strong>left hand side</strong> of the angle.</p>',
-                'fi': '<p>Valitse tai lisää kulman <strong>vasemman kyljen</strong> piste.</p>'
+                'fi': '<p>Valitse tai lisää kulman <strong>vasemman kyljen</strong> piste.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller rita in en punkt på <strong>vänster sida</strong> om vinkeln.</p>'
             },
             'Bisector-maintooltip': {
                 'en': 'Bisector',
-                'fi': 'Kulmanpuolittaja'
+                'fi': 'Kulmanpuolittaja',
+                'sv': 'Bisektris'
             },
             'Bisector-tooltip': {
                 'en': 'Bisector',
-                'fi': 'Kulmanpuolittaja'
+                'fi': 'Kulmanpuolittaja',
+                'sv': 'Bisektris'
             }
         });
         
@@ -2050,23 +2080,28 @@
         Localizer.addTerms({
             'Parallelogram-start': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>first cornerpoint</strong> of parallelogram.</p>',
-                'fi': '<p>Valitse tai lisää suunnikkaan <strong>ensimmäinen kulmapiste</strong> klikkaamalla piirtoaluetta.</p>'
+                'fi': '<p>Valitse tai lisää suunnikkaan <strong>ensimmäinen kulmapiste</strong> klikkaamalla piirtoaluetta.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller lägga till den <strong>första hörnpunkten</strong> i parallellogrammet.</p>'
             },
             'Parallelogram-1': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>second cornerpoint</strong> of parallelogram.</p>',
-                'fi': '<p>Valitse tai lisää suunnikkaan <strong>toinen kulmapiste</strong> klikkaamalla piirtoaluetta.</p>'
+                'fi': '<p>Valitse tai lisää suunnikkaan <strong>toinen kulmapiste</strong> klikkaamalla piirtoaluetta.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller lägga till den <strong>andra hörnpunkten</strong> i parallellogrammet.</p>'
             },
             'Parallelogram-2': {
                 'en': '<p>Click on the drawing area to select or to add the <strong>third</strong> cornerpoint of parallelogram.</p>',
-                'fi': '<p>Valitse tai lisää suunnikkaan <strong>kolmas</strong> kulmapiste klikkaamalla piirtoaluetta.</p>'
+                'fi': '<p>Valitse tai lisää suunnikkaan <strong>kolmas</strong> kulmapiste klikkaamalla piirtoaluetta.</p>',
+                'sv': '<p>Klicka på ritområdet för att välja eller lägga till den <strong>tredje hörnpunkten</strong> i parallellogrammet.</p>'
             },
             'Parallelogram-maintooltip': {
                 'en': 'Parallelogram',
-                'fi': 'Suunnikas'
+                'fi': 'Suunnikas',
+                'sv': 'Parallellogram'
             },
             'Parallelogram-tooltip': {
                 'en': 'Parallelogram',
-                'fi': 'Suunnikas'
+                'fi': 'Suunnikas',
+                'sv': 'Parallellogram'
             }
         });
         
@@ -2074,7 +2109,8 @@
         Localizer.addTerms({
             'Label-start': {
                 'en': '<p>Click on the drawing area to add a label.</p>',
-                'fi': '<p>Lisää teksti klikkaamalla piirtoaluetta.</p>'
+                'fi': '<p>Lisää teksti klikkaamalla piirtoaluetta.</p>',
+                'sv': '<p>Klicka på ritområdet för att lägga till text.</p>'
             },
             'Label-maintooltip': {
                 'en': 'Text label',
@@ -5446,8 +5482,10 @@
                 var dist = defaultval;
                 if (typeof(x) !== 'undefined' && typeof(y) !== 'undefined') {
                     var sign;
-                    if (this.p1x-this.p2x === 0) {
+                    if (this.p1x-this.p2x === 0 && this.p1y > this.p2y) {
                         sign = (x > this.p2x ? +1 : -1);
+                    } else if (this.p1x-this.p2x === 0) {
+                        sign = (x > this.p2x ? -1 : +1);
                     } else if (this.p1x > this.p2x) {
                         sign = (y > (this.p1y-this.p2y)/(this.p1x-this.p2x)*(x-this.p1x) + this.p1y ? -1 : 1);
                     } else {
@@ -5455,7 +5493,7 @@
                     }
                     var dx = this.p2x - x;
                     var dy = this.p2y - y;
-                    dist = sign * Math.sqrt(dx*dx + dy*dy);
+                    dist = sign * Math.sqrt(dx*dx + dy*dy) || 1; // Make sure, dist !== 0.
                 }
                 return dist;
             }
