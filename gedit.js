@@ -86,37 +86,37 @@
         var methods = {
             init: function(params){
                 
-                params = $.extend(true, {
-                    'editable' : true,
-                    'width' : '100%',
-                    'height' : '500px',
-                    'mode' : 'free',
-                    'isSquare' : false,
-                    'browsingMode' : 'tabs',
-                    'scenes' : 
-                        [	
-                            {
-                                'type': 'Scene',
-                                'name': '',
-                                'objects': [],
-                                'boundingBox': [-10,5,10,-5],
-                                'description' : '',
-                                'allowControls' : true,
-                                'showAxes' : true,
-                                'showGrid': false,
-                                'isStatic': false
-                            }
-                        ]
-                }, params);
+                params = convertOld2New(params);
                 var editor = new GEditor(this, params);
                 editor.init();
             },
             getdata: function(params){
                 var $place = $(this);
                 $place.trigger('getdata');
-                var data = $place.data('[[geoeditordata]]');
+                var data = $place.data('[[elementdata]]');
                 return data;
             }
+        }
+        
+        var convertOld2New = function(options){
+            var result;
+            if (options.type == 'geopicture') {
+                result = options;
+            } else {
+                var settings = {
+                    mode: (options.editable ? 'edit' : 'view')
+                };
+                if (options.lang) {
+                    settings.lang = lang;
+                    settings.uilang = lang;
+                };
+                result = $.extend(true, {}, GEditor.defaults, {
+                    type: 'geopicture',
+                    data: options,
+                    settings: settings
+                });
+            }
+            return result;
         }
     }
     
@@ -124,21 +124,25 @@
         /******
          * Class for GEditor.
          ******/
-        var GEditor = function(place, options){
-            options = $.extend({
-                editable: false,
-                scenes: [],
-                width: 500,
-                height: 500,
-                browsingMode: 'tabs',
-                lang: $(place).closest('[lang]').attr('lang') || 'en'
-            }, options);
+        var GEditor = function(place, params){
+            var deflang = $(place).closest('[lang]').attr('lang') || 'en';
+            params = $.extend(true, {}, GEditor.defaults, {settings: {lang: deflang, uilang: deflang}}, params);
+            var options = params.data;
             var editor = this;
             this.place = $(place);
-            this.lang = options.lang;
+            this.metadata = params.metadata;
+            this.settings = params.settings;
+            if (!this.metadata.creator) {
+                this.metadata.creator = this.settings.username;
+            };
+            if (!this.metadata.created) {
+                this.metadata.created = (new Date()).toString();
+            };
+            this.lang = params.settings.lang;
+            this.uilang = params.settings.uilang;
             this.localizer = new Localizer(this.lang);
             this.decimalperiod = this.localizer.decimalperiod();
-            this.editable = options.editable;
+            this.editable = (params.settings.mode === 'edit');
             this.dataObj = options.scenes;
             this.width = options.width;
             this.height = options.height;
@@ -151,7 +155,10 @@
             this.generateSceneArr();
             this.sceneNum = 0;
             this.objectId = 'scene';
-            $(window).resize(function() { editor.updateView(); });
+            if (!$('body').hasClass('hasgeoeditor')) {
+                $('body').addClass('hasgeoeditor');
+                $(window).resize(function() { $('.geoeditorwrapper').trigger('updateview'); });
+            };
         }
         
         /******
@@ -194,7 +201,6 @@
          ******/
         GEditor.prototype.getData = function(){
             var data = {
-                editable: this.editable,
                 width: this.width,
                 height: this.height,
                 mode: this.mode,
@@ -204,9 +210,16 @@
             }
             for (var i = 0; i < this.sceneArr.length; i++) {
                 data.scenes.push(this.sceneArr[i].getData());
-            }
-            return data;
-        }
+            };
+            this.metadata.modifier = this.settings.username;
+            this.metadata.modified = (new Date()).toString();
+            var result = {
+                type: 'geopicture',
+                metadata: $.extend(true, {}, this.metadata),
+                data: data
+            };
+            return result;
+        };
         
         /******
          * Init tools
@@ -366,7 +379,7 @@
             var editor = this;
             this.place.bind('getdata', function(event){
                 var data = editor.getData();
-                editor.place.data('[[geoeditordata]]', data);
+                editor.place.data('[[elementdata]]', data);
             });
             this.place.bind('updateview', function(event){
                 editor.updateView();
@@ -517,6 +530,7 @@
                     editor.updateDialog();
                 }
                 editor.place.trigger('geoeditor_changed');
+                editor.place.trigger('element_changed', {type: 'geopicture', lang: editor.settings.lang});
             });
             this.place.delegate('div.gedit-scenearea', 'clickonboard', function(event, options){
                 var objdata = editor.tool.click(options);
@@ -712,6 +726,7 @@
             var errors = this.sceneArr[this.sceneNum].draw('geditorbox-' + this.boxnum, !this.editable);
             this.highlightObject(this.objectId);
             this.place.trigger('geoeditor_changed');
+            this.place.trigger('element_changed', {type: 'geopicture', lang: this.settings.lang});
             return errors;
             //this.layout.scenearea.find('svg').css(size).attr('viewbox', '0 0 800 800');
         }
@@ -949,7 +964,7 @@
         
         GEditor.strings = {
             css: [
-                '.geoeditorwrapper {margin: 0.5em 0; box-sizing: border-box; -moz-box-sizing: border-box; width: 100%; border: 1px solid black; position: relative;}',
+                '.geoeditorwrapper {margin: 0; box-sizing: border-box; -moz-box-sizing: border-box; width: 100%; border: 1px solid black; position: relative;}',
                 '.geoeditorwrapper.editmode {min-width: 600px;}',
                 '.geoeditorwrapper svg {display: inline-block;}',
                 '.gedit-gradbg {background: rgb(238,238,238);',
@@ -1065,6 +1080,64 @@
             tools: {
                 navigation: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="105" height="70" viewbox="0 0 150 100" class="geoedit-tool geoedit-navitool"><g transform="translate(50 25)" class="gedit-navibutton gedit-navi-up"><circle style="stroke: #333; stroke-width: 4;" fill="#eee" cx="0" cy="0" r="14" /><path style="stroke: none; fill: #333;" d="M2 -2 l0 8 a2 2 0 0 1 -4 0 l0 -8 l-3 3 a2 2 0 0 1 -3 -3 l6 -6 a3 3 0 0 1 4 0 l6 6 a2 2 0 0 1 -3 3z" /></g><g transform="translate(50 75) rotate(180)" class="gedit-navibutton gedit-navi-down"><circle style="stroke: #333; stroke-width: 4;" fill="#eee" cx="0" cy="0" r="14" /><path style="stroke: none; fill: #333;" d="M2 -2 l0 8 a2 2 0 0 1 -4 0 l0 -8 l-3 3 a2 2 0 0 1 -3 -3 l6 -6 a3 3 0 0 1 4 0 l6 6 a2 2 0 0 1 -3 3z" /></g><g transform="translate(25 50) rotate(-90)" class="gedit-navibutton gedit-navi-left"><circle style="stroke: #333; stroke-width: 4;" fill="#eee" cx="0" cy="0" r="14" /><path style="stroke: none; fill: #333;" d="M2 -2 l0 8 a2 2 0 0 1 -4 0 l0 -8 l-3 3 a2 2 0 0 1 -3 -3 l6 -6 a3 3 0 0 1 4 0 l6 6 a2 2 0 0 1 -3 3z" /></g><g transform="translate(75 50) rotate(90)" class="gedit-navibutton gedit-navi-right"><circle style="stroke: #333; stroke-width: 4;" fill="#eee" cx="0" cy="0" r="14" /><path style="stroke: none; fill: #333;" d="M2 -2 l0 8 a2 2 0 0 1 -4 0 l0 -8 l-3 3 a2 2 0 0 1 -3 -3 l6 -6 a3 3 0 0 1 4 0 l6 6 a2 2 0 0 1 -3 3z" /></g><g transform="translate(125 20)" class="gedit-navibutton gedit-navi-zoomin"><rect x="-22" y="-12" width="34" height="34" fill="transparent" /><circle style="stroke: #333; stroke-width: 4;" fill="#eee" cx="0" cy="0" r="10" /><path style="stroke: none; fill: #333;" d="M-11 7 l-10 10 a2 2 0 0 0 4 4 l10 -10z" /><path style="stroke: none; fill: #333;" d="M-1.5 -1.5 l0 -5 l3 0 l0 5 l5 0 l0 3 l-5 0 l0 5 l-3 0 l0 -5 l-5 0 l0 -3z" /></g><g transform="translate(125 70)" class="gedit-navibutton gedit-navi-zoomout"><rect x="-22" y="-12" width="34" height="34" fill="transparent" /><circle style="stroke: #333; stroke-width: 4;" fill="#eee" cx="0" cy="0" r="10" /><path style="stroke: none; fill: #333;" d="M-11 7 l-10 10 a2 2 0 0 0 4 4 l10 -10z" /><path style="stroke: none; fill: #333;" d="M-6.5 -1.5 l13 0 l0 3 l-13 0z" /></g></svg>'
             }
+        };
+        
+        GEditor.defaults = {
+            type: 'geopicture',
+            metadata: {
+                creator: '',
+                created: 0,
+                modifier: '',
+                modified: 0,
+                tags: []
+            },
+            data: {
+                'editable' : true,
+                'width' : '100%',
+                'height' : '500px',
+                'mode' : 'free',
+                'isSquare' : false,
+                'browsingMode' : 'tabs',
+                'scenes' : [
+                    {
+                        'type': 'Scene',
+                        'name': '',
+                        'objects': [],
+                        'boundingBox': [-10,5,10,-5],
+                        'description' : '',
+                        'allowControls' : true,
+                        'showAxes' : true,
+                        'showGrid': false,
+                        'isStatic': false
+                    }
+                ]
+            },
+            settings: {
+                mode: 'view',
+                role: 'student',
+                username: 'Anonymous'
+            }
+        }
+        
+        GEditor.elementinfo = {
+            type: 'geopicture',
+            elementtype: ['elements', 'studentelements', 'teacherelements'],
+            jquery: 'geditor',
+            name: 'GeoEditor',
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="300" height="300" viewBox="0 0 20 20" class="mini-icon mini-icon-geopicture geoedit-icon geoedit-object-circle"><path style="stroke: none;" d="M10 1 a9 9 0 0 0 0 18 a9 9 0 0 0 0 -18z m0 1 a8 8 0 0 1 0 16 a8 8 0 0 1 0 -16z m0 6 a2 2 0 0 0 0 4 a2 2 0 0 0 0 -4z m7 5 a2 2 0 0 0 0 4 a2 2 0 0 0 0 -4z m0 1 l-7 -5 l-1 1 l7 5z" /></svg>',
+            description: {
+                en: 'Show and draw geometrical images',
+                fi: 'Näytä ja piirrä geometrisia kuvia'
+            },
+            roles: ['teacher', 'student', 'author'],
+            classes: ['math']
+        }
+        
+        if (typeof($.fn.elementset) === 'function') {
+            $.fn.elementset('addelementtype', GEditor.elementinfo);
+        }
+        if (typeof($.fn.elementpanel) === 'function') {
+            $.fn.elementpanel('addelementtype', GEditor.elementinfo);
         }
     }
     
